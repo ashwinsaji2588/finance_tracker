@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  postgres:
+    build:
+      context: ./database
+    container_name: finance_postgres
+    ports:
+      - "5433:5432"
+    env_file:
+      - ./environment/finance.env
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - finance-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  liquibase:
+    build:
+      context: ./liquibase
+    container_name: finance_liquibase
+    depends_on:
+      postgres:
+        condition: service_healthy
+    env_file:
+      - ./environment/finance.env
+    command: --changelog-file=changelog/db.changelog-master.xml update
+    networks:
+      - finance-network
+
+  backend:
+    build:
+      context: ./backend
+    container_name: finance_backend
+    ports:
+      - "8080:8080"
+    environment:
+      - DB_URL=jdbc:postgresql://postgres:5432/finance_tracker
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=postgres
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - finance-network
+
+networks:
+  finance-network:
+    driver: bridge
+
+volumes:
+  postgres-data:

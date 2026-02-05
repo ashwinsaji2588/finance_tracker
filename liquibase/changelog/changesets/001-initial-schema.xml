@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.24.xsd">
+
+    <changeSet id="1" author="ashwin-saji">
+        <createTable tableName="users" schemaName="finance">
+            <column name="id" type="uuid" defaultValueComputed="gen_random_uuid()">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="email" type="varchar(255)">
+                <constraints unique="true" nullable="false"/>
+            </column>
+            <column name="password_hash" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="2" author="ashwin-saji">
+        <createTable tableName="categories" schemaName="finance">
+            <column name="id" type="uuid" defaultValueComputed="gen_random_uuid()">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="uuid">
+                <constraints nullable="true" foreignKeyName="fk_categories_users" references="finance.users(id)"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="3" author="ashwin-saji">
+        <createTable tableName="transactions" schemaName="finance">
+            <column name="id" type="uuid" defaultValueComputed="gen_random_uuid()">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="user_id" type="uuid">
+                <constraints nullable="false" foreignKeyName="fk_transactions_users" references="finance.users(id)"/>
+            </column>
+            <column name="amount" type="decimal(19, 2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="category_id" type="uuid">
+                <constraints nullable="false" foreignKeyName="fk_transactions_categories" references="finance.categories(id)"/>
+            </column>
+            <column name="type" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="date" type="date">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="4" author="ashwin-saji">
+        <createTable tableName="portfolios" schemaName="finance">
+            <column name="id" type="uuid" defaultValueComputed="gen_random_uuid()">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="user_id" type="uuid">
+                <constraints nullable="false" foreignKeyName="fk_portfolios_users" references="finance.users(id)"/>
+            </column>
+            <column name="asset_symbol" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="quantity" type="decimal(19, 4)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="average_buy_price" type="decimal(19, 2)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>

@@ -1,0 +1,13 @@
+D:\Project\backend\src\main\java\com\finance\tracker\entity\Category.java
+D:\Project\backend\src\main\java\com\finance\tracker\FinanceTrackerApplication.java
+D:\Project\backend\src\main\java\com\finance\tracker\service\UserService.java
+D:\Project\backend\src\main\java\com\finance\tracker\exception\GlobalExceptionHandler.java
+D:\Project\backend\src\main\java\com\finance\tracker\controller\UserController.java
+D:\Project\backend\src\main\java\com\finance\tracker\entity\User.java
+D:\Project\backend\src\main\java\com\finance\tracker\dto\UserResponse.java
+D:\Project\backend\src\main\java\com\finance\tracker\exception\UserAlreadyExistsException.java
+D:\Project\backend\src\main\java\com\finance\tracker\config\SecurityConfig.java
+D:\Project\backend\src\main\java\com\finance\tracker\dto\CreateUserRequest.java
+D:\Project\backend\src\main\java\com\finance\tracker\repository\UserRepository.java
+D:\Project\backend\src\main\java\com\finance\tracker\entity\Portfolio.java
+D:\Project\backend\src\main\java\com\finance\tracker\entity\Transaction.java
